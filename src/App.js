@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import React, { useState } from 'react';
-import './App.css';
+import classes from './App.css';
 // import Radium, { StyleRoot} from  'radium';
 import Person from './Person/Person';
 import UserInput from './UserInput/UserInput';
@@ -157,20 +157,21 @@ render() {
               clicked={() => this.deleteUserInputHandler(index)} />;
     });
 
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-      ':hover':{
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
-    };
+    // const style = {
+    //   backgroundColor: 'green',
+    //   color: 'white',
+    //   font: 'inherit',
+    //   border: '1px solid blue',
+    //   padding: '8px',
+    //   cursor: 'pointer',
+    //   ':hover':{
+    //     backgroundColor: 'lightgreen',
+    //     color: 'black'
+    //   }
+    // };
 
     let persons = null;
+    let btnClass = [classes.Button];
 
     if (this.state.showPersons){
       persons = (
@@ -207,25 +208,27 @@ render() {
       //   backgroundColor: 'salmon',
       //   color: 'black'
       // };
+
+      btnClass.push(classes.Red);
     }
 
     // let classes = ['red','bold'].join(' ');
 
-    let classes = [];
+    let assignedClasses = [];
 
     if(this.state.persons.length <= 2){
-      classes.push('red'); //classes = ['red']
+      assignedClasses.push(classes.red); //classes = ['red']
     }
 
     if(this.state.persons.length <= 1){
-      classes.push('bold'); //classes = ['red'],'bold']
+      assignedClasses.push(classes.bold); //classes = ['red'],'bold']
     }
 
     return (
       // <StyleRoot>
-      <div className="App">
+      <div className={classes.App}>
         <h1>Hi, I'm a React App</h1>
-        <p className={classes.join(' ')}>This is really working!</p>
+        <p className={assignedClasses.join(' ')}>This is really working!</p>
        
         <hr/>
         {/*<button onClick={switchNameHandler}>Switch Name</button>
@@ -256,6 +259,12 @@ render() {
         <button className="button" onClick={this.togglePersonHandler}>
            Toggle Persons Button
         </button>
+        <hr/>
+        <button className={btnClass.join(' ')} onClick={this.togglePersonHandler}>
+           Toggle Persons Button
+        </button>
+
+
         {persons}
         <hr/>
         <hr/>
