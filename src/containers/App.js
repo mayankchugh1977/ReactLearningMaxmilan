@@ -24,6 +24,10 @@ const StyledButton = styled.button`
 
 class App extends Component {
 
+  constructor (props) {
+    super(props);
+    console.log('[App.js] constructor');
+  }
 
 state = {
   persons: [
@@ -36,6 +40,19 @@ state = {
   userName: 'supermax',
   userInput: ''
 };
+
+static getDerivedStateFromProps(props, state){
+  console.log('[App.js] getDerivedStateFromProps',props);
+  return state;
+}
+
+componentWillMount(){
+  console.log('[App.js] componentWillMount');
+}
+
+componentDidMount(){
+  console.log('[App.js] componentDidMount');
+}
 
 userNameChangeHandler = (event) => {
   this.setState({userName: event.target.value});
@@ -94,7 +111,7 @@ deleteUserInputHandler =(index) => {
 };
 
 render() {
-
+    console.log('[App.js] render');
     const charList = this.state.userInput.split('').map((ch, index) => {
       return <Char 
               character={ch} 
