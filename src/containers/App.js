@@ -176,13 +176,12 @@ render() {
     let persons = null;
     // let btnClass = '';
 
+   
+
     if (this.state.showPersons){
       persons = (
         <div>
-          <Cockpit 
-            showPersons={this.showPersons}
-            persons={this.state.persons}
-            clicked= {this.togglePersonHandler}/>
+         
           <Persons 
             persons={this.state.persons} 
             clicked= {this.deletePersonHandler}
@@ -237,6 +236,11 @@ render() {
     return (
       // <StyleRoot>
       <div className={classes.App}>
+         <Cockpit 
+          title = {this.props.appTitle}
+          showPersons={this.showPersons}
+          persons={this.state.persons}
+          clicked= {this.togglePersonHandler}/>
         {/* <h1>Hi, I'm a React App</h1>
         <p className={assignedClasses.join(' ')}>This is really working!</p>
         <button className={btnClass} onClick={this.togglePersonHandler}>
