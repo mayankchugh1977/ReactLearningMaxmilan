@@ -37,6 +37,7 @@ state = {
   ],
   otherState: 'some other value',
   showPersons: false,
+  showCockpit: true,
   userName: 'supermax',
   userInput: ''
 };
@@ -73,6 +74,20 @@ switchNameHandler = (newName) => {
     ]
   });
 };
+
+componentDidUpdate(){
+  console.log('[App.js] componentDidUpdate');
+}
+   
+componentDidUpdate() {
+     console.log('[App.js] componentDidUpdate...');
+}
+
+shouldComponentUpdate(nextProps, nextState){
+  console.log('[App.js] shouldComponentUpdate...');
+  return true;
+}
+
 
 nameChangeHandler = (event, id) => {
   const personIndex = this.state.persons.findIndex(p => {
@@ -138,12 +153,19 @@ render() {
   
     return (
       <div className={classes.App}>
-         <Cockpit 
-          title = {this.props.appTitle}
-          showPersons={this.showPersons}
-          persons={this.state.persons}
-          clicked= {this.togglePersonHandler}/>
-        
+        <button 
+          onClick={ () => {
+            this.setState({showCockpit: false});
+        }}
+        >
+          Remove Cockpit</button>
+        {this.state.showCockpit ? ( 
+          <Cockpit 
+            title = {this.props.appTitle}
+            showPersons={this.state.showPersons}
+            personsLength={this.state.persons.length}
+            clicked= {this.togglePersonHandler}/>
+        ): null}
         {persons}
         <hr/>
         <hr/>
