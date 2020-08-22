@@ -7,6 +7,7 @@ import UserOutput from '../components/UserOutput/UserOutput';
 import Validation from '../components/Validation/Validation';
 import styled from 'styled-components';
 import Char from '../components/Char/Char';
+import WithClass from '../hoc/WithClass';
 
 const StyledButton = styled.button`
       background-color: ${props => props.alt ? 'red' : 'green'};
@@ -152,7 +153,8 @@ render() {
 
   
     return (
-      <div className={classes.App}>
+      // <div className={classes.App}>
+      <WithClass classes={classes.App}>
         <button 
           onClick={ () => {
             this.setState({showCockpit: false});
@@ -201,8 +203,8 @@ render() {
           <p>{this.state.userInput}</p>
           <Validation userInputlength = {this.state.userInput.length}/>
           {charList}
-        
-      </div>
+        </WithClass>
+      // {/* </div> */}
     );
     
   }
