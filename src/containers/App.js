@@ -7,7 +7,10 @@ import UserOutput from '../components/UserOutput/UserOutput';
 import Validation from '../components/Validation/Validation';
 import styled from 'styled-components';
 import Char from '../components/Char/Char';
-import WithClass from '../hoc/WithClass';
+// import WithClass from '../hoc/WithClass';
+import withClass from '../hoc/withClass';
+import Auxiliary from '../hoc/Auxiliary';
+import AuthContext from '../context/auth-context';
 
 const StyledButton = styled.button`
       background-color: ${props => props.alt ? 'red' : 'green'};
@@ -40,7 +43,9 @@ state = {
   showPersons: false,
   showCockpit: true,
   userName: 'supermax',
-  userInput: ''
+  userInput: '',
+  changedCounter: 0,
+  authenticated: false
 };
 
 static getDerivedStateFromProps(props, state){
@@ -104,7 +109,12 @@ nameChangeHandler = (event, id) => {
   const persons = [...this.state.persons];
   persons[personIndex] = person;
 
-  this.setState({ persons: persons });
+  this.setState((prevState, props)  => {
+    return {
+      persons: persons, 
+      changedCounter: this.state.changedCounter + 1
+    };
+   });
 };
 
 deletePersonHandler =(perIndex) => {
@@ -117,6 +127,10 @@ deletePersonHandler =(perIndex) => {
 togglePersonHandler = () => {
   const doesShow = this.state.showPersons;
   this.setState({showPersons: !doesShow});
+};
+
+loginHandler = () => {
+  this.setState({authenticated: true});
 };
 
 deleteUserInputHandler =(index) => {
@@ -144,7 +158,8 @@ render() {
           <Persons 
             persons={this.state.persons} 
             clicked= {this.deletePersonHandler}
-            changed={this.nameChangeHandler}/>
+            changed={this.nameChangeHandler}
+            isAuthenticated={this.state.authenticated}/>
          
         </div> 
       );
@@ -154,21 +169,30 @@ render() {
   
     return (
       // <div className={classes.App}>
-      <WithClass classes={classes.App}>
+      // <WithClass classes={classes.App}>
+        <Auxiliary>
         <button 
           onClick={ () => {
             this.setState({showCockpit: false});
         }}
         >
           Remove Cockpit</button>
+        <AuthContext.Provider 
+          value={{authenticated: this.state.authenticated,
+          login: this.loginHandler
+          }}
+        >
         {this.state.showCockpit ? ( 
           <Cockpit 
             title = {this.props.appTitle}
             showPersons={this.state.showPersons}
             personsLength={this.state.persons.length}
-            clicked= {this.togglePersonHandler}/>
+            clicked= {this.togglePersonHandler}
+            // login={this.loginHandler}
+            />
         ): null}
         {persons}
+        </AuthContext.Provider>
         <hr/>
         <hr/>
           <ul> <h1>Assignment One </h1></ul>
@@ -203,11 +227,12 @@ render() {
           <p>{this.state.userInput}</p>
           <Validation userInputlength = {this.state.userInput.length}/>
           {charList}
-        </WithClass>
+          </Auxiliary>
+        // {/* </WithClass> */}
       // {/* </div> */}
     );
     
   }
 }
 
-export default App;
+export default withClass(App, classes.App);
